@@ -1,0 +1,209 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* CSS Variables for themes - consistent with main styles.css */
+:root {
+    --bg-primary: #ffffff;
+    --text-primary: #222222;
+    --nav-bg: #88AFE6;
+    --about-bg: #A9C8F0;
+    --btn-bg: #88AFE6;
+    --btn-color: #222;
+    --title-color: #222;
+    --desc-color: #444;
+    --hero-title: #e6e6e6;
+    --hero-desc: #fffbe7;
+
+    /* Tambahan efek */
+    --card-bg: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(159, 199, 234, 0.75));
+    --card-border: rgba(0,0,0,0.06);
+    --card-shadow: 0 10px 28px rgba(0,0,0,0.08);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #0a0a0a;
+    --text-primary: #88AFE6;
+    --nav-bg: rgba(0, 30, 60, 0.95);
+    --about-bg: #001220;
+    --btn-bg: #001220;
+    --btn-color: #88AFE6;
+    --title-color: #88AFE6;
+    --desc-color: #ffffff;
+    --hero-title: #88AFE6;
+    --hero-desc: rgba(136, 175, 230, 0.9);
+
+    /* Dark card style */
+    --card-bg: linear-gradient(180deg, rgba(0,18,32,0.85), rgba(0,18,32,0.65));
+    --card-border: rgba(136,175,230,0.15);
+    --card-shadow: 0 10px 28px rgba(0,0,0,0.35);
+}
+
+body {
+    padding-top: 80px;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    background-color: var(--bg-primary);
+}
+
+.container {
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-bottom: 3rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  section { min-height: auto; padding: 2rem 1rem; }
+  .facility-list { 
+    grid-template-columns: 1fr !important; 
+    gap: 1rem !important; 
+    justify-content: center; 
+    margin: 0 auto;
+    width: 100%;
+    max-width: 400px;
+  }
+  .facility-card { 
+    padding: 1rem !important; 
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  .about-title { font-size: 2rem; }
+  .facility-card img { height: 160px; }
+}
+
+@media (max-width: 480px) {
+  .about-title { font-size: 1.75rem; }
+  .btn-pesan { padding: 0.5rem 1.25rem; text-decoration: none; }
+  .facility-card img { height: 140px; }
+}
+
+
+/* Styles for Pesan button on fasilitas page */
+.btn-pesan {
+  background: linear-gradient(135deg, #9bd36b, #69b34c);
+  border: none;
+  padding: 0.65rem 1.75rem;
+   text-decoration: none;
+  border-radius: 9999px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  color: #0b1a0a;
+  font-family: 'Poppins', sans-serif;
+  position: relative; /* ensures ripple stays inside */
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(105, 179, 76, 0.35);
+}
+.btn-pesan:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(105, 179, 76, 0.45);  text-decoration: none;}
+.btn-pesan i { margin-right: 8px; }
+
+/* About title style for fasilitas page */
+.about-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2.8rem;
+  color: var(--title-color);
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Facility grid and card styles */
+.facility-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+.facility-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem 1.25rem;
+  box-shadow: var(--card-shadow);
+  transform: translateY(18px);
+  opacity: 0;
+  animation: cardEnter 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.facility-card.visible { animation: cardEnter 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+.facility-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; }
+.facility-card h2 { margin: 0.75rem 0 0.5rem; font-size: 1.25rem; color: var(--text-primary); }
+.facility-card p { color: var(--desc-color); margin-bottom: 0.5rem; }
+.facility-card .btn-pesan {
+  margin-top: auto; /* push button to bottom */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@keyframes cardEnter {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Hover float */
+.facility-card:hover { transform: translateY(-4px); box-shadow: 0 14px 34px rgba(0,0,0,0.12); }
+
+/* Ripple effect styles */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    background-color: rgba(255, 255, 255, 0.7);
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+button {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Navbar animation styles */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+nav.scroll-down {
+  transform: translateY(-100%);
+}
+
+nav.scroll-up {
+  transform: translateY(0);
+}
+
+/* Image container and source attribution styles */
+.image-container {
+  position: relative;
+}
+
+.source-attribution {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  z-index: 2;
+}
